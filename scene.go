@@ -201,10 +201,12 @@ func (s *Scene) drawSprite(screen *ebiten.Image, sprite Sprite) {
 	radius := float32(sprite.Width * 0.5)
 	vector.DrawFilledCircle(screen, float32(sx), float32(sy+yOffset), radius, sprite.Color, true)
 
-	// Draw progress indicator around sprite
+	// Draw progress indicator (simplified - just show a marker)
 	if sprite.Progress > 0 {
-		progressAngle := float32(sprite.Progress * 6.28318)
-		vector.StrokeArc(screen, float32(sx), float32(sy+yOffset), radius+4, 0, progressAngle, 2, color.RGBA{255, 255, 255, 128}, true)
+		// Draw a small progress pip at the top
+		pipX := float32(sx)
+		pipY := float32(sy+yOffset) - radius - 6
+		vector.DrawFilledCircle(screen, pipX, pipY, 3, color.RGBA{255, 255, 255, uint8(sprite.Progress * 200)}, true)
 	}
 
 	// Draw outline
